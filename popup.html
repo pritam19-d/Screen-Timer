@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Screen Time</title>
+  <style>
+    body {
+      font-family: "Consolas", "Courier New", monospace;
+      padding: 20px;
+      width: 220px;
+      text-align: center;
+      background: #f8f9fa;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+    }
+
+    #timer {
+      font-size: 36px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-top: 10px;
+      color: #222;
+    }
+
+    button {
+      margin-top: 18px;
+      padding: 8px 14px;
+      border: none;
+      background: #00f2ff;
+      color: black;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background: #007108;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <h3>Today's Screen On Time</h3>
+  <div id="timer">00:00:00</div>
+  <button id="reset">Reset</button>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>
