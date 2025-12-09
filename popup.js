@@ -21,8 +21,47 @@ let baseMs = 0;
 let lastTick = null;
 let timerInterval = null;
 
-function render(ms) {
-  document.getElementById("timer").innerText = formatDigital(ms);
+function renderScreenTime(ms) {
+  const el = document.getElementById("timer");
+  if (el) el.innerText = formatDigital(ms);
+}
+
+function renderChromeTime(ms) {
+  const el = document.getElementById("chromeTimer");
+  if (el) el.innerText = formatDigital(ms);
+}
+
+function renderSites(siteStats) {
+  const topUl = document.getElementById("top-sites");
+  const allUl = document.getElementById("all-sites");
+
+  if (!topUl || !allUl) return;
+
+  topUl.innerHTML = "";
+  allUl.innerHTML = "";
+
+  const entries = Object.entries(siteStats || {});
+
+  if (entries.length === 0) {
+    topUl.innerHTML = "<li>No data yet</li>";
+    return;
+  }
+
+  entries.sort((a, b) => b[1] - a[1]);
+
+  const top5 = entries.slice(0, 5);
+
+  top5.forEach(([domain, ms]) => {
+    const li = document.createElement("li");
+    li.innerHTML = `<span>${domain}</span><span>${formatDigital(ms)}</span>`;
+    topUl.appendChild(li);
+  });
+
+  entries.forEach(([domain, ms]) => {
+    const li = document.createElement("li");
+    li.innerHTML = `<span>${domain}</span><span>${formatDigital(ms)}</span>`;
+    allUl.appendChild(li);
+  });
 }
 
 function stopLocalTimer() {
@@ -42,33 +81,33 @@ function startLocalTimer() {
     lastTick = now;
 
     baseMs += delta;
-    render(baseMs);
+    renderScreenTime(baseMs);
   }, 1000);
 }
 
 function initPopup() {
   const today = getToday();
 
+  loadTheme();
+  setupThemeToggle();
+
   chrome.storage.local.get(
-    ["screenTime", "savedDate", "isFocused", "lastFocusTime"],
+    ["screenTime", "chromeTime", "siteStats", "savedDate"],
     function (data) {
       let screenTime = data.screenTime || 0;
+      let chromeTime = data.chromeTime || 0;
       let savedDate = data.savedDate || today;
-      const isFocused = data.isFocused || false;
-      const lastFocusTime = data.lastFocusTime || null;
 
       // If data is from an older day, ignore it
       if (savedDate !== today) {
         screenTime = 0;
-      } else if (isFocused && lastFocusTime) {
-        // Add current active session from last focus until now
-        screenTime += Date.now() - lastFocusTime;
+        chromeTime = 0;
       }
 
       baseMs = screenTime;
-      render(baseMs);
-
-      // Always animate locally when popup is open
+      renderScreenTime(baseMs);
+      renderChromeTime(chromeTime);
+      renderSites(data.siteStats || {});
       startLocalTimer();
     }
   );
@@ -76,15 +115,45 @@ function initPopup() {
 
 // Reset button
 document.getElementById("reset").onclick = function () {
-  // Ask background to reset canonical state
+  if (!confirm("Reset today's usage?")) return;
+
   chrome.runtime.sendMessage(
-    { type: "RESET_TODAY", isFocused: true }, // treat as focused after reset
+    { type: "RESET_TODAY" },
     function () {
       baseMs = 0;
-      render(0);
+      renderScreenTime(0);
+      renderChromeTime(0);
+      renderSites({});
       startLocalTimer();
     }
   );
 };
+
+function applyTheme(theme) {
+  const body = document.body;
+  body.classList.remove("light", "dark");
+  body.classList.add(theme);
+
+  const toggle = document.getElementById("themeToggle");
+  if (toggle) toggle.checked = theme === "dark";
+}
+
+function loadTheme() {
+  chrome.storage.local.get(["theme"], (res) => {
+    const theme = res.theme || "light";
+    applyTheme(theme);
+  });
+}
+
+function setupThemeToggle() {
+  const toggle = document.getElementById("themeToggle");
+  if (!toggle) return;
+
+  toggle.addEventListener("change", () => {
+    const theme = toggle.checked ? "dark" : "light";
+    chrome.storage.local.set({ theme });
+    applyTheme(theme);
+  });
+}
 
 initPopup();

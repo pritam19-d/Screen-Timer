@@ -1,0 +1,137 @@
+body {
+  font-family: "Consolas", "Courier New", monospace;
+  padding: 16px;
+  width: 260px;
+  text-align: center;
+  transition: background 0.25s, color 0.25s;
+}
+
+body.light {
+  background: #f8f9fa;
+  color: #1b1d34;
+}
+
+body.dark {
+  background: #252842;
+  color: #eee;
+}
+
+h3 {
+  margin: 0 0 8px;
+}
+
+#timer {
+  font-size: 36px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-top: 10px;
+}
+
+#totalTimer {
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+h4 {
+  margin: 10px 0 4px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0;
+  text-align: left;
+  font-size: 12px;
+  max-height: 140px;
+  overflow-y: auto;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0;
+}
+
+.row {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
+button {
+  margin-right: 18px;
+  padding: 8px 14px;
+  border: none;
+  background: #00f2ff;
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background: #006f71;
+  color: white;
+}
+
+#themeToggle {
+  cursor: pointer;
+}
+
+details {
+  margin-top: 4px;
+  text-align: left;
+}
+
+details > summary {
+  cursor: pointer;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 22px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .3s;
+  border-radius: 22px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #007bff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
