@@ -34,6 +34,7 @@ function renderChromeTime(ms) {
 function renderSites(siteStats) {
   const topUl = document.getElementById("top-sites");
   const allUl = document.getElementById("all-sites");
+  const allBlock = document.getElementById("all-sites-block");
 
   if (!topUl || !allUl) return;
 
@@ -50,18 +51,22 @@ function renderSites(siteStats) {
   entries.sort((a, b) => b[1] - a[1]);
 
   const top5 = entries.slice(0, 5);
+  const rest = entries.slice(6, -1);
 
-  top5.forEach(([domain, ms]) => {
+  top5.forEach(([domain, ms], i) => {
     const li = document.createElement("li");
-    li.innerHTML = `<span>${domain}</span><span>${formatDigital(ms)}</span>`;
+    li.innerHTML = `<span>${i+1 + ". " + domain}</span><span>${formatDigital(ms)}</span>`;
     topUl.appendChild(li);
   });
 
-  entries.forEach(([domain, ms]) => {
-    const li = document.createElement("li");
-    li.innerHTML = `<span>${domain}</span><span>${formatDigital(ms)}</span>`;
-    allUl.appendChild(li);
-  });
+  if (!!rest) {
+    allBlock.style.display = "block";
+    rest.forEach(([domain, ms], i) => {
+      const li = document.createElement("li");
+      li.innerHTML = `<span>${i+6 + ". " + domain}</span><span>${formatDigital(ms)}</span>`;
+      allUl.appendChild(li);
+    });
+  }
 }
 
 function stopLocalTimer() {
