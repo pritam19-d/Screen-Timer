@@ -1,111 +1,179 @@
 body {
-  font-family: "Consolas", "Courier New", monospace;
+  font-family: "Inter", "Consolas", "Courier New", monospace;
   padding: 16px;
-  width: 260px;
+  width: 280px;
   text-align: center;
   transition: background 0.25s, color 0.25s;
 }
 
+/* LIGHT MODE */
 body.light {
-  background: #f8f9fa;
-  color: #1b1d34;
+  --bg: #f5f7fb;
+  --fg: #1b1d34;
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --border: rgba(0, 0, 0, 0.12);
+  --shadow: 0px 2px 12px rgba(0,0,0,0.08);
+
+  --dropdown-bg: #ffffff;
+  --dropdown-border: rgba(0,0,0,0.2);
+  --hover: rgba(0,0,0,0.06);
 }
 
+/* DARK MODE */
 body.dark {
-  background: #252842;
-  color: #eee;
+  --bg: #1f2234;
+  --fg: #f3f6ff;
+  --card-bg: rgba(255,255,255,0.08);
+  --border: rgba(255,255,255,0.15);
+  --shadow: 0px 4px 14px rgba(0,0,0,0.5);
+
+  --dropdown-bg: #2f324d;
+  --dropdown-border: rgba(255,255,255,0.25);
+  --hover: rgba(255,255,255,0.06);
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
 }
 
 h3 {
-  margin: 0 0 8px;
+  font-size: 16px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  opacity: 0.9;
 }
 
+/* Timer Card */
 #timer {
-  font-size: 36px;
-  font-weight: bold;
+  background: var(--card-bg);
+  padding: 12px 0;
+  margin-top: 8px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  font-size: 38px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
   letter-spacing: 2px;
-  margin-top: 10px;
+  backdrop-filter: blur(10px);
 }
 
-#totalTimer {
-  font-size: 32px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-}
-
+/* Headers */
 h4 {
-  margin: 10px 0 4px;
+  margin: 14px 0 4px;
   font-size: 13px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  opacity: 0.75;
+  letter-spacing: 0.6px;
 }
 
 ul {
   list-style: none;
-  padding: 0;
-  margin: 4px 0;
+  padding: 10px;
+  margin: 6px 0;
   text-align: left;
   font-size: 12px;
-  max-height: 140px;
+  max-height: 150px;
   overflow-y: auto;
+
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
 }
 
+/* Scrollbar (thin & elegant) */
 ul::-webkit-scrollbar {
-  width: 4px;
-}
-ul::-webkit-scrollbar-track {
-  background: transparent;
+  width: 3px;
 }
 ul::-webkit-scrollbar-thumb {
-  background: rgba(150,150,150,0.3);
+  background: rgba(150,150,150,0.25);
   border-radius: 10px;
 }
 
+/* Site rows */
 li {
   display: flex;
   justify-content: space-between;
-  padding: 2px 0;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+.show-more-btn {
+  width: 100%;
+  text-align: center;
+  padding: 6px 0;
+  margin-top: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--fg);
+  background: transparent;
+  border: none;
+  opacity: 0.75;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.show-more-btn:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+#reminderSelect {
+  width: 94%;
+  margin: 10px auto 16px auto;
+  padding: 8px 10px;
+  font-size: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--dropdown-border);
+  background: var(--dropdown-bg);
+  color: var(--fg);
+  cursor: pointer;
+  transition: 0.25s;
+  backdrop-filter: blur(6px);
+}
+
+#reminderSelect:active {
+  color: #1b1d34;
 }
 
 .row {
-  margin-top: 10px;
+  margin-top: 12px;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 16px;
   align-items: center;
 }
 
+/* Reset Button */
 button {
-  margin-right: 18px;
   padding: 8px 14px;
   border: none;
-  background: #00f2ff;
+  background: #00e4ff;
   color: black;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.25s, transform 0.15s;
 }
 
 button:hover {
-  background: #006f71;
+  background: #008a91;
   color: white;
+  transform: translateY(-2px);
 }
 
-#themeToggle {
-  cursor: pointer;
-}
-
-details {
-  margin-top: 4px;
-  text-align: left;
-}
-
-details > summary {
-  cursor: pointer;
+#themeLabel {
   font-size: 12px;
-  margin-bottom: 2px;
+  opacity: 0.8;
 }
+
 .switch {
   position: relative;
   display: inline-block;
@@ -122,14 +190,15 @@ details > summary {
 .slider {
   position: absolute;
   cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #ccc;
+  inset: 0;
+  background-color: #888;
   transition: .3s;
   border-radius: 22px;
 }
+
 .slider:before {
-  position: absolute;
   content: "";
+  position: absolute;
   height: 18px;
   width: 18px;
   left: 2px;

@@ -9,7 +9,7 @@
   <h3>Today's Screen On Time</h3>
   <div id="timer">00:00:00</div>
 
-  <h4>Top 5 Websites</h4>
+  <h4 id="top5-title">Top 5 Most Used Sites</h4>
   <ul id="top-sites"></ul>
 
   <details id="all-sites-block" style="display:none;">
@@ -20,12 +20,23 @@
   <div class="row">
     <button id="reset">Reset</button>
 
-    <!-- THEME TOGGLE -->
-    <label class="switch">
+    <span id="themeLabel" style="font-size:12px; opacity:0.8;">Mode: Light</span>
+
+    <label class="switch" title="Switch theme mode">
       <input type="checkbox" id="themeToggle">
       <span class="slider"></span>
     </label>
   </div>
+
+  <h4>Look Away Reminder</h4>
+  <select id="reminderSelect">
+    <option value="0">Off</option>
+    <option value="5">Every 5 minutes</option>
+    <option value="10">Every 10 minutes</option>
+    <option value="20">Every 20 minutes</option>
+    <option value="30">Every 30 minutes</option>
+    <option value="60">Every 60 minutes</option>
+  </select>
 
   <script src="popup.js"></script>
 </body>

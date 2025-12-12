@@ -3,7 +3,7 @@
   "version": "1.2.0",
   "name": "Screen Time Monitor",
   "description": "Tracks how long the browser stays active and focused.",
-  "permissions": ["storage", "idle", "tabs", "windows"],
+  "permissions": ["storage", "idle", "tabs", "windows", "alarms", "notifications", "system.display"],
   "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "background.js"
